@@ -1,0 +1,17 @@
+[Unit]
+Description=Servidor DHCP dhcpd-tui
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=@BINDIR@/dhcpd-tui -headless -dir /etc/dhcpd-tui
+Restart=on-failure
+# Solo necesita enlazar el puerto 67 y difundir por la interfaz
+AmbientCapabilities=CAP_NET_BIND_SERVICE CAP_NET_RAW
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE CAP_NET_RAW
+NoNewPrivileges=yes
+ProtectSystem=full
+ReadWritePaths=/etc/dhcpd-tui
+
+[Install]
+WantedBy=multi-user.target
